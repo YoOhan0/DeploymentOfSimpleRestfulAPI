@@ -29,10 +29,10 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t hanyohan/testSpringApp:latest .
+        run: docker build -t hanyohan/testspringapp:latest .
 
       - name: Push Docker Image to Docker Hub
-        run: docker push hanyohan/testSpringApp:latest
+        run: docker push hanyohan/testspringapp:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            docker pull hanyohan/testSpringApp:latest
+            docker pull hanyohan/testspringapp:latest
             docker stop my-restful-app || true
             docker rm my-restful-app || true
-            docker run -d --name my-restful-app -p 8080:8080 hanyohan/testSpringApp:latest
+            docker run -d --name my-restful-app -p 8080:8080 hanyohan/testspringapp:latest
